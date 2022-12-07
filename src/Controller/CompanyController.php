@@ -16,14 +16,38 @@ class CompanyController extends AbstractController
     #[Route('/company', name: 'company_route')]
     public function index(Request $request, RateLimiterFactory $companyRouteLimiter, ManagerRegistry $doctrine): Response
     {
-        $limiter = $companyRouteLimiter->create($request->getClientIp());
-
-        if (false === $limiter->consume(1)->isAccepted()) {
-            throw new TooManyRequestsHttpException();
-        }
+        $this->addRateLimiter($companyRouteLimiter, $request);
 
         $companies = $doctrine->getRepository(Company::class)->findAll();
 
+        $companyCollection = $this->createJsonResponse($companies);
+
+        return $this->json($companyCollection);
+    }
+
+
+
+    #[Route('/company', name: 'company_route_id')]
+    public function show(Request $request, RateLimiterFactory $companyRouteIdLimiter, ManagerRegistry $doctrine, int $id): Response
+    {
+        $this->addRateLimiter($companyRouteIdLimiter, $request);
+
+        $company = $doctrine->getRepository(Company::class)->find($id);
+
+        if (!$company) {
+            throw $this->createNotFoundException(
+                'No company found for id '. $id
+            );
+        }
+
+        $companyCollection = $this->createJsonResponse([$company]);
+
+        return $this->json($companyCollection);
+    }
+
+
+    function createJsonResponse(array $companies): array
+    {
         $companyCollection = array();
 
         foreach($companies as $item) {
@@ -41,39 +65,17 @@ class CompanyController extends AbstractController
             );
         }
 
-        return $this->json($companyCollection);
+        return $companyCollection;
     }
 
+    function addRateLimiter(RateLimiterFactory $factory, Request $request) {
 
-
-    #[Route('/company', name: 'company_route_id')]
-    public function show(Request $request, RateLimiterFactory $companyRouteIdLimiter, ManagerRegistry $doctrine, int $id): Response
-    {
-        $limiter = $companyRouteIdLimiter->create($request->getClientIp());
+        $limiter = $factory->create($request->getClientIp());
 
         if (false === $limiter->consume(1)->isAccepted()) {
             throw new TooManyRequestsHttpException();
         }
 
-        $company = $doctrine->getRepository(Company::class)->find($id);
-
-        if (!$company) {
-            throw $this->createNotFoundException(
-                'No company found for id '.$id
-            );
-        }
-
-        return $this->json([
-            'id' => $company->getId(),
-            'company_name' => $company->getName(),
-            'street' => $company->getStreet(),
-            'street_number' => $company->getStreetNumber(),
-            'postal_code' => $company->getPostalCode(),
-            'city' => $company->getCity(),
-            'country' => $company->getCountry(),
-            'latitude' => $company->getLatitude(),
-            'longitude' => $company->getLongitude(),
-            'email' => $company->getEmail(),
-        ]);
     }
+
 }
