@@ -7,16 +7,18 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CompanyController extends AbstractController
 {
+
+
     #[Route('/company', name: 'company_route')]
     public function index(Request $request, RateLimiterFactory $companyRouteLimiter, ManagerRegistry $doctrine): Response
     {
-        $this->addRateLimiter($companyRouteLimiter, $request);
+        $helper = new Helper();
+        $helper->addRateLimiter($companyRouteLimiter, $request);
 
         $companies = $doctrine->getRepository(Company::class)->findAll();
 
@@ -26,11 +28,11 @@ class CompanyController extends AbstractController
     }
 
 
-
     #[Route('/company', name: 'company_route_id')]
     public function show(Request $request, RateLimiterFactory $companyRouteIdLimiter, ManagerRegistry $doctrine, int $id): Response
     {
-        $this->addRateLimiter($companyRouteIdLimiter, $request);
+        $helper = new Helper();
+        $helper->addRateLimiter($companyRouteIdLimiter, $request);
 
         $company = $doctrine->getRepository(Company::class)->find($id);
 
@@ -46,8 +48,39 @@ class CompanyController extends AbstractController
     }
 
 
+    #[Route('/company/inrange', name: 'company_route_inrange')]
+    public function inrange(Request $request, RateLimiterFactory $companyRouteLimiter, ManagerRegistry $doctrine): Response
+    {
+        $helper = new Helper();
+        $helper->addRateLimiter($companyRouteLimiter, $request);
+
+        $companies = $doctrine->getRepository(Company::class)->findAll();
+
+        $lat = $request->get('latitude');
+        $long = $request->get('longitude');
+        $range = $request->get('range');
+
+
+        $companiesInRange = array();
+
+        foreach ($companies as $item)
+        {
+            if($helper->isInRange($item->getLatitude(),$item->getLongitude(),$lat, $long, $range))
+            {
+                $companiesInRange[] = $item;
+            }
+        }
+
+        $companyCollection = $this->createJsonResponse($companiesInRange);
+
+        return $this->json($companyCollection);
+    }
+
+
+
     function createJsonResponse(array $companies): array
     {
+
         $companyCollection = array();
 
         foreach($companies as $item) {
@@ -66,16 +99,6 @@ class CompanyController extends AbstractController
         }
 
         return $companyCollection;
-    }
-
-    function addRateLimiter(RateLimiterFactory $factory, Request $request) {
-
-        $limiter = $factory->create($request->getClientIp());
-
-        if (false === $limiter->consume(1)->isAccepted()) {
-            throw new TooManyRequestsHttpException();
-        }
-
     }
 
 }

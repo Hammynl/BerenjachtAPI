@@ -9,5 +9,14 @@ company_route:
     controller: App\Controller\CompanyController::index
 
 company_route_id:
-    path: /company/{id}
+    path: /company/id/{id}
     controller: App\Controller\CompanyController::show
+
+company_route_inrange:
+    path: /company/inrange
+    controller: App\Controller\CompanyController::inrange
+
+
+
+
+
