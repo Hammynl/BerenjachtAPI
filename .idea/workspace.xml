@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f40a55d-ec26-4fea-bcdc-71a2f5b31966" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/CompanyController.php" afterDir="false" />
+    <list default="true" id="9f40a55d-ec26-4fea-bcdc-71a2f5b31966" name="Changes" comment="Created company entity">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/BerenjachtAPI.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BerenjachtAPI.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes/framework.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes/framework.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CompanyController.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,6 +86,9 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
       <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/vendor/doctrine/deprecations" />
+      <path value="$PROJECT_DIR$/vendor/symfony/rate-limiter" />
+      <path value="$PROJECT_DIR$/vendor/symfony/options-resolver" />
+      <path value="$PROJECT_DIR$/vendor/symfony/lock" />
     </include_path>
   </component>
   <component name="ProjectId" id="2ISHl268TvGZBGTGOysNAy89O4J" />
@@ -123,8 +126,16 @@
       <updated>1670168211225</updated>
       <workItem from="1670168212519" duration="2979000" />
       <workItem from="1670245301397" duration="3353000" />
-      <workItem from="1670339241020" duration="523000" />
+      <workItem from="1670339241020" duration="10608000" />
     </task>
+    <task id="LOCAL-00001" summary="Created company entity">
+      <created>1670339985915</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1670339985915</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,5 +151,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Created company entity" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created company entity" />
   </component>
 </project>

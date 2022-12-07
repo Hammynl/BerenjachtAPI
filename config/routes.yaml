@@ -6,4 +6,8 @@ controllers:
 
 company_route:
     path: /company
-    controller: App\Controller\CompanyController::number
+    controller: App\Controller\CompanyController::index
+
+company_route_id:
+    path: /company/{id}
+    controller: App\Controller\CompanyController::show
